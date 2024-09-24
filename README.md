@@ -36,3 +36,11 @@ To run the script, ensure you have Python installed along with the necessary lib
 ```bash
 pip install pandas numpy
 ```
+## Usage
+To calculate the distances between consecutive rows of a CSV file, run the script from the terminal with the following command:
+
+```bash
+python ternary_distance.py <input_file.csv> <output_file.csv>
+```
+
+The input CSV file must contain at least three columns labeled t1, t2, and t3. Each row represents the counts for three components that sum to a constant. The output file will be a CSV with one column named distance. This column will contain the Euclidean distances between consecutive points in the ternary plot.
