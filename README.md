@@ -1,42 +1,47 @@
-# Ternary Distance Calculator
+# Ternarywalk
 
-This repository provides a Python script to calculate the Euclidean distance between consecutive points in a ternary plot. The ternary plot represents three variables (`t1`, `t2`, `t3`) which sum to a constant number (in this case, 10,000). The script converts these ternary coordinates to Cartesian coordinates and computes the distance between consecutive rows in the input data, outputting a vector of distances.
+This tool calculates the 1D distance between consecutive rows in a dataset that represent points in a ternary space. A ternary plot is used to visualize data composed of three components that sum to a constant value. The distance between two points in this space is computed using Euclidean distance, but modified for the triangular coordinate system used in ternary plots.
 
-## Mathematical Overview
+## Mathematical Background
 
-### Ternary Coordinates
-A ternary plot is a triangle plot used to visualize the proportions of three variables that sum to a constant. In this case, the variables `t1`, `t2`, and `t3` sum to 10,000. For easier distance calculations, these values are first normalized so that:
+Each row in the input dataset has three values, `t1`, `t2`, and `t3`, which represent counts that sum to a constant (in this case, 10,000). The points are transformed into a 2D Euclidean space using the barycentric coordinates for the ternary plot, and then the Euclidean distance between consecutive rows is calculated.
 
-t1 + t2 + t3 = 1
+### Barycentric Coordinates Transformation
 
-### Conversion from Ternary to Cartesian Coordinates
-To calculate distances, we need to convert the ternary coordinates to Cartesian (2D) coordinates.
+Given three values `t1`, `t2`, and `t3`, the transformation into 2D coordinates is done as follows:
 
-Given normalized ternary coordinates `(t1, t2, t3)`, the Cartesian coordinates `(x, y)` are calculated as:
+1. Convert `t1`, `t2`, and `t3` into proportions by dividing by their sum.
+   \[
+   t1' = \frac{t1}{t1 + t2 + t3}
+   \]
+   \[
+   t2' = \frac{t2}{t1 + t2 + t3}
+   \]
+   \[
+   t3' = \frac{t3}{t1 + t2 + t3}
+   \]
 
-x = 0.5 * (2 * t2 + t1) y = (sqrt(3) / 2) * t1
+2. Transform these into 2D coordinates using barycentric coordinates. The formulas for transforming the proportions into 2D Cartesian coordinates are:
 
-These formulas are derived from the geometry of the equilateral triangle representing the ternary plot.
+   \[
+   x = \frac{1}{2} \times (2 \times t2' + t3')
+   \]
+   \[
+   y = \frac{\sqrt{3}}{2} \times t3'
+   \]
 
-### Distance Calculation
-Once the ternary coordinates are converted to Cartesian coordinates, the Euclidean distance between two consecutive points `(x1, y1)` and `(x2, y2)` is calculated as:
+   Here, `x` and `y` are the coordinates for each point on the ternary plot in a 2D Euclidean plane.
 
-d = sqrt((x2 - x1)^2 + (y2 - y1)^2)
+### Euclidean Distance Calculation
 
-This formula calculates the straight-line distance between the two points.
+Once the points are transformed into 2D coordinates, the distance between consecutive points (rows) is calculated using the Euclidean distance formula:
 
-### Installation
+\[
+d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
+\]
 
-To run the script, ensure you have Python installed along with the necessary libraries:
+Where:
 
-```bash
-pip install pandas numpy
+- \( (x_1, y_1) \) and \( (x_2, y_2) \) are the 2D coordinates of consecutive points.
 
-### usage
-
-To calculate the distances between consecutive rows of a CSV file, run the script from the terminal with the following command:
-
-python ternary_distance.py chr1.csv output_distances.csv
-
-Input File Format
-The input CSV file should have three columns (t1, t2, and t3) with non-negative integer values that sum to a constant number for each row. Example:
+This calculation is done for each pair of consecutive rows in the dataset to produce a vector of distances.
