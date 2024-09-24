@@ -1,10 +1,12 @@
-# Ternarywalk
+# Ternary Distance Calculator
 
-This tool calculates the 1D distance between consecutive rows in a dataset that represent points in a ternary space. A ternary plot is used to visualize data composed of three components that sum to a constant value. The distance between two points in this space is computed using Euclidean distance, but modified for the triangular coordinate system used in ternary plots.
+This repository provides a Python script to calculate the Euclidean distance between consecutive points in a ternary plot. The ternary plot represents three variables (`t1`, `t2`, `t3`) which sum to a constant number (in this case, 10,000). The script converts these ternary coordinates to Cartesian coordinates and computes the distance between consecutive rows in the input data, outputting a vector of distances.
 
-## Mathematical Background
+## Mathematical Overview
 
-Each row in the input dataset has three values, `t1`, `t2`, and `t3`, which represent counts that sum to a constant (in this case, 10,000). The points are transformed into a 2D Euclidean space using the barycentric coordinates for the ternary plot, and then the Euclidean distance between consecutive rows is calculated.
-```math
-t1 + t2 + t3 = 1
+### Ternary Coordinates
 
+A ternary plot is a triangular plot used to visualize the proportions of three variables that sum to a constant. In this case, the variables `t1`, `t2`, and `t3` sum to 10,000. For easier distance calculations, these values are first normalized so that:
+
+
+$$t1 + t2 + t3 = 1$$
